@@ -98,3 +98,52 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+async function handleTranslateText(
+  text: string
+): Promise<{ translation: string }> {
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey || apiKey.length < 10)
+    throw new Error("API key is not configured.");
+
+  const prompt = `Translate the following text into English. If it is already in English, define it or explain its meaning in a simple way. Provide only the single, most likely translation or definition, without any extra conversational text.\n\nText: "${text}"`;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || `API request failed`);
+    }
+    const data = await response.json();
+    return { translation: data.candidates[0].content.parts[0].text };
+  } catch (error) {
+    console.error("Error during Gemini translation call:", error);
+    throw new Error("Failed to get translation.");
+  }
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "summarize") {
+    handleSummarize(request.content)
+      .then(sendResponse)
+      .catch((error) => sendResponse({ error: error.message }));
+    return true;
+  } else if (request.type === "askQuestion") {
+    handleAskQuestion(request.question, request.context)
+      .then(sendResponse)
+      .catch((error) => sendResponse({ error: error.message }));
+    return true;
+  } else if (request.type === "translateText") {
+    handleTranslateText(request.text)
+      .then(sendResponse)
+      .catch((error) => sendResponse({ error: error.message }));
+    return true;
+  }
+});

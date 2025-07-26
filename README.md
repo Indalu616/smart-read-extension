@@ -1,5 +1,3 @@
-
-
 # 🚀 SmartRead AI Extension
 
 [![React Badge](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
@@ -7,7 +5,7 @@
 [![MUI Badge](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-An intelligent Chrome extension designed to boost your online reading productivity. SmartRead uses the Google Gemini API to provide instant summaries and answer questions about any article, blog post, or research paper you're reading.
+An intelligent Chrome extension designed to boost your online reading productivity. SmartRead uses the Google Gemini API to provide instant summaries, answer questions, translate text, and clean up your reading environment.
 
 Built with a modern tech stack including React, Vite, and Material UI, this extension is designed to be fast, scalable, and easy to use.
 
@@ -17,10 +15,12 @@ Built with a modern tech stack including React, Vite, and Material UI, this exte
 
 - **AI-Powered Summaries**: Get the key takeaways from any article without reading the whole thing. The summary is displayed in a clean, collapsible sidebar.
 - **Interactive Q&A**: Ask follow-up questions about the content and get instant, context-aware answers directly from the AI.
+- **Text-to-Speech**: Listen to summaries and answers read aloud with easy-to-use play, pause, and stop controls.
+- **Focus Mode**: Instantly hide ads, popups, headers, and other distractions with a single click for a clean reading experience.
+- **Vocabulary Builder & Translator**: Select any word or phrase on a page to instantly translate it or save it to your personal vocabulary list.
 - **Minimalist Design**: A beautiful, modern UI inspired by ShadCN, built on Material UI, that gets out of your way.
-- **Markdown Rendering**: AI responses are beautifully formatted with support for headings, lists, bold text, and more.
 
-_(More features like Text-to-Speech, Focus Mode, and a Vocabulary Builder are coming soon!)_
+_(An analytics dashboard and other features are coming soon!)_
 
 ---
 
@@ -74,13 +74,23 @@ In the file selection dialog, choose the dist folder that was created in your pr
 The SmartRead AI extension icon should now appear in your Chrome toolbar!
 
 💡 How to Use
-Navigate to any online article, blog, or research paper.
+Summarize & Q&A:
 
-Click the SmartRead AI icon in your Chrome toolbar.
+Navigate to any online article.
 
-From the popup, click the "Summarize Page" button.
+Click the SmartRead AI icon in your Chrome toolbar and click "Summarize & Q&A".
 
-The sidebar will open with a complete summary. Use the input field at the bottom to ask any follow-up questions you have about the text!
+The sidebar will open with a complete summary. Use the input field at the bottom to ask follow-up questions.
+
+Click the ▶️ icon under any AI message to have it read aloud.
+
+Focus Mode:
+
+From the popup, click "Toggle Focus Mode" to instantly clean up the page for distraction-free reading.
+
+Vocabulary & Translation:
+
+Simply highlight any text on the page. A small tooltip will appear, allowing you to save the word to your vocabulary list or get an instant translation/definition.
 
 ❤️ Show Your Support
 If you find this project useful or interesting, please give it a star! It helps motivate further development and makes the project more visible to others.

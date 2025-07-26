@@ -1,0 +1,56 @@
+/* src/content/focus-mode.css */
+
+/*
+  When the .smart-read-focus-mode class is added to the body,
+  these styles will activate.
+*/
+
+/* Hide common distracting elements */
+.smart-read-focus-mode header,
+.smart-read-focus-mode footer,
+.smart-read-focus-mode nav,
+.smart-read-focus-mode aside,
+.smart-read-focus-mode [class*="ad"],
+.smart-read-focus-mode [id*="ad"],
+.smart-read-focus-mode [class*="sidebar"],
+.smart-read-focus-mode [id*="sidebar"],
+.smart-read-focus-mode [class*="popup"],
+.smart-read-focus-mode [id*="popup"],
+.smart-read-focus-mode [class*="banner"],
+.smart-read-focus-mode [id*="banner"] {
+  display: none !important;
+}
+
+/* Apply a clean background to the entire page */
+.smart-read-focus-mode body {
+  background-color: #f0f2f5 !important;
+}
+
+/* Isolate and style the main content area */
+.smart-read-focus-mode main,
+.smart-read-focus-mode article,
+.smart-read-focus-mode [role="main"],
+.smart-read-focus-mode #content,
+.smart-read-focus-mode .content {
+  max-width: 800px !important;
+  margin: 2rem auto !important;
+  padding: 4rem !important;
+  background-color: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  color: #1a1a1a !important;
+}
+
+/* Ensure all other elements are reset to allow the main content to stand out */
+.smart-read-focus-mode
+  body
+  > *:not(main, article, [role="main"], #content, .content, #smart-read-root) {
+  display: none !important;
+}
+
+/* Make sure our extension's root is not hidden */
+.smart-read-focus-mode #smart-read-root {
+  display: block !important;
+}
