@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "SmartRead AI",
+  "version": "1.0.0",
+  "description": "Enhance your reading experience with AI-powered summaries, Q&A, and focus tools.",
+  "permissions": ["storage", "activeTab", "scripting", "tts"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "src/background/background.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["src/content/content-script.tsx"]
+    }
+  ],
+  "action": {
+    "default_popup": "index.html"
+  }
+}
