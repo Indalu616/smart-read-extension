@@ -1,69 +1,107 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# 🚀 SmartRead AI Extension
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![React Badge](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite Badge](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![MUI Badge](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)](https://mui.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## Expanding the ESLint configuration
+An intelligent Chrome extension designed to boost your online reading productivity. SmartRead uses the Google Gemini API to provide instant summaries and answer questions about any article, blog post, or research paper you're reading.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Built with a modern tech stack including React, Vite, and Material UI, this extension is designed to be fast, scalable, and easy to use.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## ✨ Key Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **AI-Powered Summaries**: Get the key takeaways from any article without reading the whole thing. The summary is displayed in a clean, collapsible sidebar.
+- **Interactive Q&A**: Ask follow-up questions about the content and get instant, context-aware answers directly from the AI.
+- **Minimalist Design**: A beautiful, modern UI inspired by ShadCN, built on Material UI, that gets out of your way.
+- **Markdown Rendering**: AI responses are beautifully formatted with support for headings, lists, bold text, and more.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+_(More features like Text-to-Speech, Focus Mode, and a Vocabulary Builder are coming soon!)_
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Installation & Setup
+
+Follow these steps to get SmartRead up and running on your local machine.
+
+### **Step 1: Get Your Gemini API Key**
+
+This extension requires a Google Gemini API key to function.
+
+1.  Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create your API key.
+2.  Ensure that you have **enabled the "Gemini API"** and have **linked a billing account** in your Google Cloud project. The API has a generous free tier but requires a billing account for activation.
+
+### **Step 2: Clone the Repository**
+
+Open your terminal and run the following command to clone the project:
+
+```bash
+git clone [https://github.com/Indalu616/smart-read-extension.git](https://github.com/Indalu616/smart-read-extension.git)
+Step 3: Install Dependencies
+Navigate into the newly created project directory and install the necessary packages.
+
+Bash
+
+cd smart-read-extension
+npm install
+Step 4: Set Up Your API Key
+In the root of the project, create a new file named .env.local.
+
+Open the file and add your Gemini API key in the following format:
+
+VITE_GEMINI_API_KEY="YOUR_API_KEY_HERE"
+Note: Replace "YOUR_API_KEY_HERE" with the actual key you obtained from Google AI Studio.
+
+Step 5: Build the Extension
+Run the build command to create the production-ready extension files. This will generate a dist folder.
+
+Bash
+
+npm run build
+Step 6: Load the Extension in Chrome
+Open Google Chrome and navigate to chrome://extensions.
+
+Enable "Developer mode" using the toggle in the top-right corner.
+
+Click the "Load unpacked" button.
+
+In the file selection dialog, choose the dist folder that was created in your project directory.
+
+The SmartRead AI extension icon should now appear in your Chrome toolbar!
+
+💡 How to Use
+Navigate to any online article, blog, or research paper.
+
+Click the SmartRead AI icon in your Chrome toolbar.
+
+From the popup, click the "Summarize Page" button.
+
+The sidebar will open with a complete summary. Use the input field at the bottom to ask any follow-up questions you have about the text!
+
+❤️ Show Your Support
+If you find this project useful or interesting, please give it a star! It helps motivate further development and makes the project more visible to others.
+
+⭐ Star This Repository
+
+🤝 Contributing
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
+Fork the Project
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+Push to the Branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
+
+📄 License
+This project is distributed under the MIT License. See the LICENSE file for more information.
 ```
