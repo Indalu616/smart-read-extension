@@ -129,7 +129,7 @@ async function handleTranslateText(
   }
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request: any, _sender: any, sendResponse: any) => {
   if (request.type === "summarize") {
     handleSummarize(request.content)
       .then(sendResponse)

@@ -4,7 +4,10 @@ import { Readability } from "@mozilla/readability";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme/theme";
 import SummarySidebar from "../components/SummarySidebar";
-import { SelectionTooltip } from "../components/SelectionTooltip";
+import {
+  SelectionTooltip,
+  VirtualElement,
+} from "../components/SelectionTooltip";
 import removeMarkdown from "remove-markdown";
 
 export interface Message {
@@ -47,7 +50,9 @@ const ContentScriptApp = () => {
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // State for Vocabulary Tooltip
-  const [tooltipAnchor, setTooltipAnchor] = useState<HTMLElement | null>(null);
+  const [tooltipAnchor, setTooltipAnchor] = useState<VirtualElement | null>(
+    null
+  );
   const [selectedText, setSelectedText] = useState("");
 
   // Vocabulary Handlers
@@ -61,15 +66,17 @@ const ContentScriptApp = () => {
   };
 
   const handleTranslateRequest = (text: string): Promise<string> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage(
         { type: "translateText", text },
         (response) => {
-          if (response.error) {
-            resolve(`Error: ${response.error}`);
-          } else {
-            resolve(response.translation);
+          if (chrome.runtime.lastError) {
+            return reject(chrome.runtime.lastError.message);
           }
+          if (response.error) {
+            return reject(response.error);
+          }
+          resolve(response.translation);
         }
       );
     });
@@ -78,46 +85,33 @@ const ContentScriptApp = () => {
   // Effect Hook for Text Selection
   useEffect(() => {
     const handleMouseUp = (event: MouseEvent) => {
-      // Don't show tooltip if the selection is inside our own sidebar
-      if ((event.target as HTMLElement)?.closest("#smart-read-root")) {
-        return;
-      }
-
-      const selection = window.getSelection();
-      const text = selection?.toString().trim() ?? "";
-
-      if (text.length > 0 && text.length < 300) {
-        // Only show for reasonable length selections
-        const range = selection!.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
-
-        const virtualEl = {
-          getBoundingClientRect: () => rect,
-          contextElement: range.startContainer.parentElement,
-        };
-
-        setTooltipAnchor(virtualEl as HTMLElement);
-        setSelectedText(text);
-      } else {
-        setTooltipAnchor(null);
-      }
+      if ((event.target as HTMLElement)?.closest("#smart-read-root")) return;
+      setTimeout(() => {
+        const selection = window.getSelection();
+        const text = selection?.toString().trim() ?? "";
+        if (text.length > 0 && text.length < 300) {
+          const range = selection!.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          const virtualEl: VirtualElement = {
+            getBoundingClientRect: () => rect,
+          };
+          setTooltipAnchor(virtualEl);
+          setSelectedText(text);
+        }
+      }, 10);
     };
-
-    const handleMouseDown = () => {
-      // Hide the tooltip when the user starts a new action
+    const handleMouseDown = (event: MouseEvent) => {
+      const popperEl = document.querySelector("[data-popper-id]");
+      if (popperEl && popperEl.contains(event.target as Node)) return;
       setTooltipAnchor(null);
     };
-
     document.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mousedown", handleMouseDown);
-
     return () => {
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
-
-  // --- All previous functions remain below ---
 
   const fetchSummary = useCallback((articleContent: string) => {
     setIsLoading(true);
@@ -232,7 +226,11 @@ const ContentScriptApp = () => {
         } catch (e) {
           console.error("SmartRead Error:", e);
           setMessages([
-            { role: "system", content: "This page could not be processed." },
+            {
+              role: "system",
+              content:
+                "This page is too complex or protected, and could not be processed.",
+            },
           ]);
           setSidebarOpen(true);
           sendResponse({ error: "Page processing failed" });
